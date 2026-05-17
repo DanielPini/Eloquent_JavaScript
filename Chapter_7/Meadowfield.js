@@ -1,4 +1,3 @@
-"use strict";
 const roads = [
     "Alice's House-Bob's House",
     "Alice's House-Cabin",
@@ -9,7 +8,7 @@ const roads = [
     "Ernie's House-Grete's House",
     "Grete's House-Farm",
     "Grete's House-Shop",
-    "Marketplace=Farm",
+    "Marketplace-Farm",
     "Marketplace-Post Office",
     "Marketplace-Shop",
     "Marketplace-Town Hall",
@@ -32,4 +31,4 @@ function buildGraph(edges) {
     return graph;
 }
 const roadGraph = buildGraph(roads);
-console.log(roadGraph);
+export default roadGraph;

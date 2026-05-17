@@ -1,3 +1,5 @@
+import type { Graph } from "./types";
+
 const roads: string[] = [
   "Alice's House-Bob's House",
   "Alice's House-Cabin",
@@ -8,15 +10,15 @@ const roads: string[] = [
   "Ernie's House-Grete's House",
   "Grete's House-Farm",
   "Grete's House-Shop",
-  "Marketplace=Farm",
+  "Marketplace-Farm",
   "Marketplace-Post Office",
   "Marketplace-Shop",
   "Marketplace-Town Hall",
   "Shop-Town Hall",
 ];
 
-function buildGraph(edges: string[]) {
-  let graph = Object.create(null);
+function buildGraph(edges: string[]): Graph {
+  let graph: Graph = Object.create(null);
   function addEdge(from: string, to: string) {
     if (from in graph) {
       graph[from].push(to);
@@ -33,4 +35,4 @@ function buildGraph(edges: string[]) {
 
 const roadGraph = buildGraph(roads);
 
-console.log(roadGraph);
+export default roadGraph;

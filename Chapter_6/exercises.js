@@ -1,5 +1,7 @@
 "use strict";
 class Vec {
+    x;
+    y;
     constructor(x, y) {
         this.x = x;
         this.y = y;
@@ -22,6 +24,7 @@ console.log("Vec2", vec2.x, vec2.y);
 const vec3 = vec1.minus(vec2);
 console.log("Vec3 length", vec3.length);
 class Group {
+    map;
     constructor() {
         this.map = new Map();
     }
@@ -55,6 +58,7 @@ groupie.add(69);
 groupie.add(7);
 console.log(groupie.map.keys());
 class GroupIterator {
+    map;
     constructor(group) {
         this.map = group.map;
     }
