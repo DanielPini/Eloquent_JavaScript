@@ -148,3 +148,96 @@ console.log(digit.exec("and now: 1")); // null
 // Another interesting effect of the global option is that it changes the way the match method works on strings.
 // When called with a global expression, instead of returning an array similar to theat returned by exec, match will find all matches of the pattern in the string and return an array containing the matched strings
 console.log("Banana".match(/an/g)); // ["an", "an"]
+// Be cautious with global regular expressions.
+// The cases where they are necessary - calls to replace and places where you want to explicitly use lastIndex - are typically the only situations where youwant to use them.
+
+// A common thing to do is to find all the matches of a regular expression in a string.
+// We can do this with the matchAll() method.
+let input = "A string with 3 numbers in it... 42 and 88.";
+let matches = input.matchAll(/\d+/g);
+for (let match of matches) {
+  console.log("Found", match[0], "at", match.index); // Found 3 at 14\nFound 42 at 33\nFound 88 at 40
+}
+
+// Parsing an INI file
+/**
+ * Config file:
+ *
+ * searchengine=https://duckduckgo.com/?q=$1
+ * spitefulness=9.7
+ * ; Comments are preceeded by a semicolon...
+ * ; Each section concerns an individual enemy
+ * [larry]
+ * fullname=Larry Doe
+ * type=kindergarten bully
+ * website=http://www.geocities.com/CapeCanaveral/11451
+ *
+ * [davaeorn]
+ * fullname=Davaeorn
+ * type=evil wizard
+ * outputdir=/hom/marijn/enemies/davaeorn
+ *
+ */
+
+/**
+ * Rules:
+ * - Blank lines and lines starting with semicolons are ignored.
+ * - Lines wrapped in [ and ] start a new section.
+ * - Lines containing an alphanumeric identifier followed by an = character add a setting to the current section
+ * - Anything else is invalid
+ */
+
+const alphanumericIdentifier = /(^\w+)=(\w+)/;
+
+function myParseIni(file: string) {
+  const parsedIni: any = {};
+  const sectionRegExp = /\[.+\]/g;
+  const sections = file.match(sectionRegExp);
+  if (!sections) return;
+  for (let section of sections) {
+    parsedIni[section] = {};
+  }
+  console.log(parsedIni);
+}
+
+const iniString = `
+searchengine=https://duckduckgo.com/?q=$1
+spitefulness=9.7
+; Comments are preceeded by a semicolon...
+; Each section concerns an individual enemy
+[larry]
+fullname=Larry Doe
+type=kindergarten bully
+website=http://www.geocities.com/CapeCanaveral/11451
+
+[davaeorn]
+fullname=Davaeorn
+type=evil wizard
+outputdir=/hom/marijn/enemies/davaeorn`;
+
+// Eloquent JavaScript implementation:
+
+function parseINI(string: string) {
+  // Start with an object to hold the top-level fields
+  let result: Record<string, any> = {};
+  let section = result;
+  for (let line of string.split(/\r?\n/)) {
+    let match;
+    if ((match = line.match(/^(\w+)=(.*)$/))) {
+      section[match[1]] = match[2];
+    } else if ((match = line.match(/^\[(.*)\]$/))) {
+      result[match[1]] = {};
+      section = result[match[1]];
+    } else if (!/^\s*(;|$)/.test(line)) {
+      throw new Error("Line '" + line + "' is not valid.");
+    }
+  }
+  return result;
+}
+
+console.log(parseINI(iniString));
+
+// Code units and characters
+// JavaScript regular expressions operate by default on code units, not actual characters
+// Emojis are often treated as two code units
+// Adding a u (Unicode) option makes it treat the characters properly
