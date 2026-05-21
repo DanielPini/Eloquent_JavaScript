@@ -29,3 +29,4 @@ function getDate(string) {
     const [_, month, day, year] = match;
     return new Date(Number(year), Number(month) - 1, Number(day));
 }
+// The underscore binding is ignored and used only to skip the full match element in the array returned by exec
