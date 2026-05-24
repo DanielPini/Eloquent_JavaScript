@@ -8,6 +8,8 @@
  * A whitespace character followed by a period, comma, colon, or semicolon
  * A word longer than six characters
  * A word without the letter e (or E)
+ * Quoting style - write regexp that registers single quotation marks but not double, nor quotes within words
+ * Numbers
  */
 // Car and Cat
 const carcat = /\bca[rt]\b/gi;
@@ -35,5 +37,8 @@ const string6 = "Peter piper picked a pack of pickled peppers";
 console.log(string6.match(long));
 // Word without e
 const noE = /\b[^\se]+\b/gi;
-const string7 = "This is going to be interesting giraffe rhino";
+const string7 = "This is going to be emit mit interesting giraffe rhino";
 console.log(string7.match(noE));
+const quote = /([^\w])'|'([^\w])/g;
+const string8 = "The woman said 'this is too good to pass up, ain't it', and I said 'I'm against it all'";
+console.log(string8.replaceAll(quote, '$1"$2'));
