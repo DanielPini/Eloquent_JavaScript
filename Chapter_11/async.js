@@ -167,3 +167,5 @@ class Grouple {
         }
     }
 }
+// An async function is a special type of generator. It produces a promise when alled, which is resolved when it returns(finishes) and rejected when it throws an exception.
+// Whenever it yields(awaits) a promise, the result of that promise(value or thrown exception) is teh result of the await expression.
