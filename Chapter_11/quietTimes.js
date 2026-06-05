@@ -57,4 +57,35 @@ const activityTable = async (day) => {
         throw new Error(e);
     });
 };
-activityTable(0);
+// Without async / await
+function generateFakeTimestamps2() {
+    return new Promise((res) => {
+        let stamps = "";
+        for (let i = 0; i < 500; i++) {
+            const timestamp = Math.floor(Math.random() * 9936000000 + 1363179600000);
+            stamps += `${timestamp.toString()}\n`;
+        }
+        res(stamps);
+    });
+}
+const activityTable2 = (day) => {
+    return generateFakeTimestamps2()
+        .then((text) => text.match(/\d+/g))
+        .then((timestamps) => {
+        if (!timestamps)
+            return;
+        let dataArray = new Array(24).fill(0);
+        timestamps.forEach((timestamp) => {
+            const date = new Date(timestamp);
+            const dateHour = date.getHours();
+            if (date.getDay() !== day)
+                return;
+            dataArray[dateHour] = dataArray[dateHour] + 1;
+        });
+        return dataArray;
+    })
+        .catch((e) => {
+        throw new Error(e);
+    });
+};
+console.log(activityTable2(1));
